@@ -1,8 +1,8 @@
-# nslookup
+# hnslookup
 
-nslookup is a personal programming excise which tries to query DNS from cloudflare.
+hnslookup is a personal programming excise which tries to query DNS from cloudflare.
 
-Install nslookup
+Install hnslookup
 
 ```bash
 go get -u github.com/Kaiser925/hnslookup
