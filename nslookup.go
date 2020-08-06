@@ -15,14 +15,13 @@ import (
 // More information see here:
 // https://developers.cloudflare.com/1.1.1.1/dns-over-https
 type DNSResponse struct {
-	Status   int         `json:"Status"`
-	TC       bool        `json:"TC"`
-	RD       bool        `json:"RD"`
-	RA       bool        `json:"RA"`
-	AD       bool        `json:"AD"`
-	CD       bool        `json:"CD"`
-	Question []*Question `json:"Question"`
-	Answer   []*Answer   `json:"Answer"`
+	Status int       `json:"Status"`
+	TC     bool      `json:"TC"`
+	RD     bool      `json:"RD"`
+	RA     bool      `json:"RA"`
+	AD     bool      `json:"AD"`
+	CD     bool      `json:"CD"`
+	Answer []*Answer `json:"Answer"`
 }
 
 // Question represents a DNS question.
@@ -31,9 +30,9 @@ type Question struct {
 	// e.g: example.com
 	Name string `url:"name" json:"name"`
 
-	// The type of DNS record requested. Either a numeric value or text,
+	// The type of DNS record requested.
 	// e.g: "AAAA"
-	Type int `url:"type" json:"type"`
+	Type string `url:"type" json:"type"`
 }
 
 // Answer represents a DNS Answer.
@@ -54,19 +53,12 @@ type Answer struct {
 	Data string `json:"data"`
 }
 
-func MapTypeToInt(typeS string) int {
-	if len(typeS) == 0 {
-		return 0
-	}
-	return 0 // TODO: handle mapping
-}
-
-func MapTypeToString(typeI int) string {
-	return "AAAA" // TODO:
-}
-
 func fmtAnswer(answer *Answer) string {
-	return fmt.Sprintf("Name: %s\nType: %s\nTL : %d\nData: %s\n", answer.Name, MapTypeToString(answer.Type), answer.TTL, answer.Data)
+	typeS, err := TypeItoa(answer.Type)
+	if err != nil {
+		typeS = err.Error()
+	}
+	return fmt.Sprintf("Name: %s\nType: %s\nTL : %d\nData: %s\n", answer.Name, typeS, answer.TTL, answer.Data)
 }
 
 func sendRequest(questions *Question) ([]byte, error) {

@@ -18,7 +18,7 @@ var rootCmd = &cobra.Command{
 var recordType string
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&recordType, "type", "", "The type of DNS record")
+	rootCmd.PersistentFlags().StringVar(&recordType, "type", "", "The type of DNS record, default A")
 }
 
 func argsHandle(_ *cobra.Command, args []string) error {
@@ -34,7 +34,7 @@ func handleCmd(cmd *cobra.Command, args []string) error {
 	questions := make([]*Question, len(args))
 	for i, name := range args {
 		question := &Question{
-			Type: MapTypeToInt(recordType),
+			Type: recordType,
 			Name: name,
 		}
 		questions[i] = question
