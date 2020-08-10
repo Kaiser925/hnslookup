@@ -9,7 +9,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "hnslookup name [, name2]",
-	Short: "Hugo is a very fast static site generator",
+	Short: "hnslookup query DNS record from cloudflare.",
 	Long:  `A DNS query tool use DoH.`,
 	Args:  argsHandle,
 	RunE:  handleCmd,
